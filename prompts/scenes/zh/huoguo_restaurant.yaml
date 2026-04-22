@@ -1,0 +1,7 @@
+id: huoguo_restaurant
+language: zh
+title: 火锅店点餐
+difficulty: B1
+persona: 火锅店服务员
+description: 在火锅店选锅底（麻辣/清汤/鸳鸯）、点菜、选饮料。服务员解释不辣的选项。
+opening_line: 欢迎光临，几位？这边请。

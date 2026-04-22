@@ -1,0 +1,7 @@
+id: izakaya_order
+language: ja
+title: 居酒屋で注文
+difficulty: A2
+persona: 居酒屋の店員さん
+description: 飲み会の席で、飲み物と料理をグループ分まとめて注文する場面。
+opening_line: いらっしゃいませ、何名様ですか？

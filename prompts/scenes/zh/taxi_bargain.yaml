@@ -1,0 +1,7 @@
+id: taxi_bargain
+language: zh
+title: 打出租车并议价
+difficulty: B1
+persona: 出租车司机
+description: 在旅游景点外打车，需要问价并稍微砍价。
+opening_line: 你好，去哪儿？

@@ -1,0 +1,19 @@
+id: travel
+languages: [ja, zh, en]
+titles:
+  ja: 道を尋ねる
+  zh: 问路
+  en: Asking for directions
+difficulty: A2
+persona:
+  ja: 地元の人
+  zh: 路人
+  en: A local resident
+description:
+  ja: 観光客が道に迷っています。
+  zh: 游客迷路了。
+  en: A tourist is lost.
+opening_line:
+  ja: 何かお困りですか？
+  zh: 您好，请问您需要帮忙吗？
+  en: You look lost — need a hand?

@@ -1,0 +1,7 @@
+id: gaotie_ticket
+language: zh
+title: 高铁售票窗口
+difficulty: B1
+persona: 车站售票员
+description: 在车站购买北京到上海的高铁票。需要说明二等座还是一等座、车次、支付方式。
+opening_line: 你好，到哪里？

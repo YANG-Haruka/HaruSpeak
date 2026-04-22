@@ -1,0 +1,7 @@
+id: pharmacy_pickup
+language: en
+title: Pharmacy pickup
+difficulty: A2
+persona: A pharmacist
+description: Picking up a prescription at the pharmacy counter. Verify your name, date of birth, and whether you've taken this medication before.
+opening_line: Hi there, picking up or dropping off today?

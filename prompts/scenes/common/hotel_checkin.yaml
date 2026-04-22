@@ -1,0 +1,19 @@
+id: hotel_checkin
+languages: [ja, zh, en]
+difficulty: A2
+titles:
+  ja: ホテルのチェックイン
+  zh: 酒店前台入住
+  en: Hotel check-in
+persona:
+  ja: ホテルのフロント係
+  zh: 酒店前台职员
+  en: A hotel receptionist
+description:
+  ja: 予約を入れてあるホテルに到着してチェックインする。身分証の提示や部屋の説明がある。
+  zh: 到达预订的酒店办理入住手续，可能会被要求出示证件并听取房间介绍。
+  en: You've arrived at the hotel you booked and need to check in; expect ID verification and room info.
+opening_line:
+  ja: いらっしゃいませ。ご予約はございますか？
+  zh: 您好，欢迎光临。请问有预订吗？
+  en: Good afternoon, do you have a reservation with us?

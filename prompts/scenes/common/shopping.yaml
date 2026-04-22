@@ -1,0 +1,19 @@
+id: shopping
+languages: [ja, zh, en]
+titles:
+  ja: 買い物
+  zh: 购物
+  en: Shopping
+difficulty: A2
+persona:
+  ja: 店員さん
+  zh: 商店店员
+  en: A shop assistant
+description:
+  ja: お客さんが服を見ています。
+  zh: 顾客在看衣服。
+  en: Customer is browsing clothes.
+opening_line:
+  ja: 何かお探しですか？
+  zh: 请问您想看什么？
+  en: Hi, can I help you find something?

@@ -1,0 +1,7 @@
+id: shinkansen_kippu
+language: ja
+title: 新幹線の切符購入
+difficulty: B1
+persona: みどりの窓口の駅員
+description: 東京から京都までの新幹線チケットを買う。自由席か指定席か、のぞみかひかりか、往復か片道かを決める。
+opening_line: はい、どちらまでいらっしゃいますか？

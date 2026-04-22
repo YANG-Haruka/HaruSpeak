@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Node
+node_modules/
+.next/
+out/
+*.log
+*.tsbuildinfo
+
+# User state (config with API keys, logs, downloaded models — all big or sensitive)
+# Note: `config/*` (not `config/`) so git still recurses and honors the
+# negation below for the sample template.
+config/*
+!config/config.sample.json
+logs/
+models/
+
+# Model weight formats (just in case anything leaks outside models/)
+*.onnx
+*.pt
+*.safetensors
+
+# IDE
+.vscode/
+.idea/
+.claude/
+*.swp
+.DS_Store

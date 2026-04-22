@@ -1,0 +1,14 @@
+{
+  "llm_provider": "openai",
+  "openai_model": "gpt-4o-mini",
+  "openai_api_base": "https://api.openai.com/v1",
+  "openai_api_key": "",
+  "lmstudio_model": "",
+  "lmstudio_base": "http://localhost:1234/v1",
+  "stt_provider": "sensevoice",
+  "faster_whisper_size": "small",
+  "whisper_model": "whisper-1",
+  "tts_voice_ja": "ja-JP-NanamiNeural",
+  "tts_voice_zh": "zh-CN-XiaoxiaoNeural",
+  "tts_voice_en": "en-US-AriaNeural"
+}

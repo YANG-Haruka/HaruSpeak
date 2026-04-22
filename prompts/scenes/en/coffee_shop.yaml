@@ -1,0 +1,7 @@
+id: coffee_shop
+language: en
+title: Coffee shop order
+difficulty: A2
+persona: A cheerful barista
+description: Ordering specialty coffee and a pastry at a busy coffee shop. Size, milk preference, iced or hot, and whether it's for here or to go.
+opening_line: Hi there! What can I get started for you today?

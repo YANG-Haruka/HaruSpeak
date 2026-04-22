@@ -1,0 +1,7 @@
+id: job_interview
+language: en
+title: Job interview
+difficulty: B2
+persona: A hiring manager at a tech company
+description: First-round phone screen for a mid-level software engineer role. Expect "tell me about yourself", "why this company", and a behavioral question.
+opening_line: Thanks for joining the call! Let's start with a quick intro — tell me a little about yourself.

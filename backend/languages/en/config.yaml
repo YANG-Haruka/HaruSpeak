@@ -1,0 +1,31 @@
+code: en
+display_name:
+  ja: 英語
+  zh: 英语
+  en: English
+
+stt:
+  backend: sensevoice
+  language_code: en
+
+tts:
+  reference:
+    backend: piper
+    voice: "en_US-lessac-medium"
+  conversation:
+    backend: piper
+    voice: "en_US-ryan-medium"
+
+wav2vec2:
+  model_id: "facebook/wav2vec2-large-robust-ft-swbd-300h"
+
+annotator:
+  default_show_reading: false   # English doesn't need base reading
+  default_show_translation: true
+  show_ipa_for_new_words: true  # hover tooltip only
+
+prosody:
+  unit: syllable-of-word
+  objective: stress_and_intonation
+
+cefr_levels: [A1, A2, B1, B2, C1, C2]

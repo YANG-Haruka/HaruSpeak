@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==================================================================
+   Color tokens — one semantic name per role, backed by CSS variables
+   that switch at <html class="dark|light">. Inspired by macOS + iOS
+   system palettes: true white / near-black surfaces, restrained accent.
+   ================================================================== */
+
+:root,
+html.light {
+  --bg:        #ffffff;
+  --bg-elev:   #f5f5f7;   /* Apple light card fill */
+  --fg:        #1d1d1f;
+  --muted:     #6e6e73;
+  --muted-bg:  #ebebed;
+  --border:    #d2d2d7;
+  --accent:    #0071e3;   /* macOS blue */
+  --accent-fg: #ffffff;
+  --success:   #34c759;
+  --warn:      #ff9f0a;
+  --danger:    #ff3b30;
+}
+
+html.dark {
+  --bg:        #000000;
+  --bg-elev:   #1c1c1e;   /* iOS secondary system bg */
+  --fg:        #f5f5f7;
+  --muted:     #8e8e93;
+  --muted-bg:  #2c2c2e;
+  --border:    #3a3a3c;
+  --accent:    #0a84ff;   /* iOS blue */
+  --accent-fg: #ffffff;
+  --success:   #30d158;
+  --warn:      #ff9f0a;
+  --danger:    #ff453a;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+               "Inter", "Hiragino Sans", "Noto Sans CJK JP",
+               "PingFang SC", system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv11";  /* Inter niceties if present */
+}
+
+/* ---- Orb ------------------------------------------------------------ */
+
+@keyframes orb-idle {
+  0%, 100% { transform: scale(1);    filter: brightness(1); }
+  50%      { transform: scale(1.015); filter: brightness(1.05); }
+}
+
+@keyframes orb-speaking {
+  0%   { transform: scale(1);    box-shadow: 0 0 0 0 rgba(10,132,255,0.45); }
+  50%  { transform: scale(1.04); box-shadow: 0 0 160px 40px rgba(10,132,255,0.25); }
+  100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(10,132,255,0); }
+}
+
+@keyframes orb-listening {
+  0%, 100% { transform: scale(1);    box-shadow: 0 0 80px 20px rgba(255,69,58,0.30); }
+  50%      { transform: scale(1.08); box-shadow: 0 0 160px 50px rgba(255,69,58,0.45); }
+}
+
+@keyframes orb-processing {
+  0%   { transform: scale(1);    filter: brightness(0.95); }
+  50%  { transform: scale(1.02); filter: brightness(1.08); }
+  100% { transform: scale(1);    filter: brightness(0.95); }
+}
+
+.orb-idle       { animation: orb-idle       3.5s ease-in-out infinite; }
+.orb-speaking   { animation: orb-speaking   1.6s ease-out    infinite; }
+.orb-listening  { animation: orb-listening  0.6s ease-in-out infinite; }
+.orb-processing { animation: orb-processing 1.2s ease-in-out infinite; }
+
+/* ---- Ruby (furigana / pinyin) -------------------------------------- */
+
+ruby rt {
+  font-size: 0.55em;
+  color: var(--muted);
+  font-weight: normal;
+}
+
+/* ---- Overlay fade-in ------------------------------------------------ */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ---- Cursor blink for streaming text -------------------------------- */
+
+@keyframes cursor-blink {
+  0%, 40%  { opacity: 1; }
+  50%, 90% { opacity: 0.15; }
+  100%     { opacity: 1; }
+}
+
+.text-cursor::after {
+  content: "▍";
+  margin-left: 2px;
+  color: var(--accent);
+  animation: cursor-blink 1.1s step-end infinite;
+}
+
+/* ---- Scrollbar (discreet, iOS-style) -------------------------------- */
+
+*::-webkit-scrollbar         { width: 5px; height: 5px; }
+*::-webkit-scrollbar-track   { background: transparent; }
+*::-webkit-scrollbar-thumb   { background: var(--border); border-radius: 3px; }
+*::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* Native form controls respect the theme — this tells the browser
+   to render <option> dropdowns, date pickers, scrollbars, etc. in
+   dark mode, otherwise Chrome renders them in their default light palette. */
+html.dark  { color-scheme: dark; }
+html.light { color-scheme: light; }
+
+/* <option> inherits color unreliably across browsers; force explicit
+   contrast so the popup list is never dark-on-dark or white-on-white. */
+select option {
+  background-color: var(--bg-elev);
+  color: var(--fg);
+}
+select option:checked {
+  background-color: var(--accent);
+  color: var(--accent-fg);
+}

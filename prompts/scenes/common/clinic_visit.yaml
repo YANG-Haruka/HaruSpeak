@@ -1,0 +1,19 @@
+id: clinic_visit
+languages: [ja, zh, en]
+difficulty: B1
+titles:
+  ja: クリニックでの診察
+  zh: 诊所就诊
+  en: Clinic visit
+persona:
+  ja: 内科のお医者さん
+  zh: 内科医生
+  en: A general practitioner
+description:
+  ja: 数日前から風邪の症状があり、内科クリニックを訪れる。症状の説明と薬の処方を受ける。
+  zh: 感冒症状持续几天后到诊所看内科，需要描述症状并听医生建议、开药。
+  en: You've had cold symptoms for a few days and are visiting a clinic to describe them and get advice.
+opening_line:
+  ja: どうなさいましたか？
+  zh: 您哪里不舒服？
+  en: Hi, what brings you in today?

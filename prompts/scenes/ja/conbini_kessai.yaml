@@ -1,0 +1,7 @@
+id: conbini_kessai
+language: ja
+title: コンビニで会計
+difficulty: A2
+persona: コンビニの店員
+description: コンビニでお弁当と飲み物を買って、公共料金の支払いもする場面。温めの確認、袋の有無、電子マネーのやり取りなど。
+opening_line: いらっしゃいませ、こちらお弁当、温めますか？

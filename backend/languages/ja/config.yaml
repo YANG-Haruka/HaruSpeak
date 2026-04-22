@@ -1,0 +1,31 @@
+code: ja
+display_name:
+  ja: 日本語
+  zh: 日语
+  en: Japanese
+
+stt:
+  backend: sensevoice
+  language_code: ja
+
+tts:
+  reference:
+    backend: voicevox
+    speaker_id: 3   # ずんだもん (ノーマル) — placeholder; user can override
+  conversation:
+    backend: cosyvoice
+    voice: "ja_female_standard"
+
+wav2vec2:
+  model_id: "NTQAI/wav2vec2-large-japanese"
+  fallback: "jonatasgrosman/wav2vec2-large-xlsr-53-japanese"
+
+annotator:
+  default_show_reading: true
+  default_show_translation: true
+
+prosody:
+  unit: mora
+  objective: pitch_accent
+
+jlpt_levels: [N5, N4, N3, N2, N1]

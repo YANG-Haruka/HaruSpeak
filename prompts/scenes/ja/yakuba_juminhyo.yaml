@@ -1,0 +1,7 @@
+id: yakuba_juminhyo
+language: ja
+title: 役所で住民票を取る
+difficulty: B2
+persona: 区役所の窓口職員
+description: 住民票の写しを申請する。必要書類の確認と手数料の支払いまで。
+opening_line: 本日はどのようなご用件でしょうか？

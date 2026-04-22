@@ -1,0 +1,58 @@
+# HaruSpeak backend dependencies.
+#
+# Installing (recommended — uv is ~10x faster than pip):
+#     pip install uv
+#     uv pip install -r backend/requirements.txt
+#
+# Or plain pip:
+#     pip install -r backend/requirements.txt
+#
+# Notes:
+#   - Python 3.11 is required.
+#   - On Windows, ffmpeg is needed on PATH for audio decoding. Either
+#     `conda install -c conda-forge ffmpeg` or download the static build.
+#   - `pyopenjtalk` is OPTIONAL — it enables Japanese pitch-accent
+#     annotations but needs a C++ toolchain to build (MSVC on Windows,
+#     gcc on Linux). Skip it and the Japanese path falls back to
+#     fugashi + unidic-lite (pure wheels, no compiler needed).
+
+# --- Web server ---------------------------------------------------------------
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+websockets==13.1
+python-multipart==0.0.12
+pydantic==2.9.2
+pydantic-settings==2.6.0
+PyYAML==6.0.2
+
+# --- LLM client ---------------------------------------------------------------
+openai==1.54.3
+httpx==0.27.2
+
+# --- STT ----------------------------------------------------------------------
+# SenseVoice (recommended, default). Depends on torch + torchaudio.
+funasr==1.3.1
+# faster-whisper (alternate). Depends on torch + ctranslate2.
+faster-whisper==1.1.0
+# Pinned so both STT backends pick up the same compatible wheels.
+torch==2.4.1
+torchaudio==2.4.1
+# Used by our STT model download UI (snapshot_download).
+huggingface_hub>=0.24,<1.0
+
+# --- TTS ----------------------------------------------------------------------
+edge-tts==7.2.8
+
+# --- Text annotation per L2 ---------------------------------------------------
+# ZH: pinyin + readings
+pypinyin==0.53.0
+# JA: morphological analysis (pure-wheel fallback)
+fugashi==1.5.2
+unidic-lite==1.0.8
+# JA (optional): pitch accent via pyopenjtalk — needs a C++ compiler.
+# pyopenjtalk==0.3.4
+# EN: IPA via espeak-ng
+phonemizer==3.3.0
+
+# --- Numerics -----------------------------------------------------------------
+numpy==1.26.4

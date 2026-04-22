@@ -1,0 +1,30 @@
+code: zh
+display_name:
+  ja: 中国語
+  zh: 中文
+  en: Chinese
+
+stt:
+  backend: sensevoice
+  language_code: zh
+
+tts:
+  reference:
+    backend: cosyvoice
+    voice: "zh_female_standard"
+  conversation:
+    backend: cosyvoice
+    voice: "zh_female_standard"
+
+wav2vec2:
+  model_id: "TencentGameMate/chinese-wav2vec2-large"
+
+annotator:
+  default_show_reading: true
+  default_show_translation: true
+
+prosody:
+  unit: syllable
+  objective: tone
+
+hsk_levels: [HSK1, HSK2, HSK3, HSK4, HSK5, HSK6]

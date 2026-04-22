@@ -1,0 +1,7 @@
+id: wechat_pay
+language: zh
+title: 微信支付出问题
+difficulty: B1
+persona: 便利店店员
+description: 在便利店用微信扫码支付时系统出故障，需要和店员沟通找替代付款方式。
+opening_line: 您好，这边扫码机刚才出了点问题，您再试试？

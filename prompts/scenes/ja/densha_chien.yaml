@@ -1,0 +1,7 @@
+id: densha_chien
+language: ja
+title: 電車の遅延
+difficulty: B1
+persona: 駅員
+description: 乗る予定の電車が遅延していて、駅員に状況と振替輸送について尋ねる。遅延証明書の受け取りも。
+opening_line: すみません、お客様、どちらまでいらっしゃいますか？

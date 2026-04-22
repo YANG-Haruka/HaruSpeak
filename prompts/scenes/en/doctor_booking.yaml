@@ -1,0 +1,7 @@
+id: doctor_booking
+language: en
+title: Booking a doctor appointment
+difficulty: B1
+persona: A clinic receptionist
+description: Calling your family doctor's office to book an annual checkup. Confirm insurance, pick a date, describe the reason for visit.
+opening_line: Thanks for calling Maple Clinic — what can I do for you?

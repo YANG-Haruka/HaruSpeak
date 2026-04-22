@@ -1,0 +1,19 @@
+id: restaurant
+languages: [ja, zh, en]
+titles:
+  ja: レストランで注文
+  zh: 餐厅点餐
+  en: Ordering at a restaurant
+difficulty: A2
+persona:
+  ja: レストランの店員
+  zh: 餐厅服务员
+  en: A friendly waiter
+description:
+  ja: お客さんが席に案内され、注文をします。
+  zh: 顾客入座后点餐。
+  en: Customer has just been seated and is about to order.
+opening_line:
+  ja: いらっしゃいませ。ご注文はお決まりですか？
+  zh: 您好，请问您想点点什么？
+  en: Good evening, are you ready to order?

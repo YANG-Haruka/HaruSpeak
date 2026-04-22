@@ -1,0 +1,19 @@
+id: bank_account
+languages: [ja, zh, en]
+difficulty: B1
+titles:
+  ja: 銀行口座の開設
+  zh: 银行开户
+  en: Opening a bank account
+persona:
+  ja: 銀行の窓口係
+  zh: 银行柜员
+  en: A bank teller
+description:
+  ja: 初めて銀行口座を作る。本人確認、必要書類、キャッシュカードの説明を受けるやり取り。
+  zh: 第一次在银行办理开户手续，需要身份验证并了解卡片、密码和网银设置。
+  en: Opening your first account at this bank — ID verification, debit card setup, and online banking.
+opening_line:
+  ja: ご用件は何でしょうか？
+  zh: 您好，请问办理什么业务？
+  en: Welcome — how can I help you today?

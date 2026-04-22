@@ -1,0 +1,7 @@
+id: chintai_sagashi
+language: ja
+title: 不動産屋で物件探し
+difficulty: B2
+persona: 不動産屋の営業マン
+description: 賃貸マンションを探している。予算、最寄り駅、間取りなど条件を伝えて物件を紹介してもらう。
+opening_line: いらっしゃいませ、どのようなお部屋をお探しですか？

@@ -1,0 +1,7 @@
+id: didi_ride
+language: zh
+title: 打滴滴专车
+difficulty: B1
+persona: 滴滴专车司机
+description: 滴滴专车司机到达，上车后确认目的地、路线偏好、闲聊几句。
+opening_line: 您好，是去XX路的乘客吗？
