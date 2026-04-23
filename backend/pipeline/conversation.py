@@ -21,6 +21,14 @@ from ..stt.base import STTBackend, Transcript
 
 _LANG_NAME = {"ja": "Japanese", "zh": "Chinese", "en": "English"}
 
+# Used only when LLM-generated opening fails entirely. Kept deliberately
+# bland so it's obviously a fallback and not the intended output.
+_FALLBACK_OPENING = {
+    "ja": "こんにちは。今日はよろしくお願いしますね。",
+    "zh": "你好，我们开始吧。",
+    "en": "Hi! Let's get started.",
+}
+
 
 def _extract_json_array(raw: str) -> list[Any]:
     """Robustly pull a JSON array out of an LLM reply.
@@ -90,11 +98,19 @@ class ConversationPipeline:
         self.persona = persona
         self.lang: LanguageModule = get_language(l2)
         self._history: list[ConversationTurn] = []
+        # Rolling memory: once `_history` exceeds `_compact_threshold`, we
+        # summarise the oldest turns into `_summary` and trim history down
+        # to `_compact_keep` recent turns. The system prompt prepends the
+        # summary so the model still has long-range context cheaply.
+        self._summary: str = ""
+        self._compact_threshold = 10
+        self._compact_keep = 6
+        self._compact_lock = asyncio.Lock()
 
     def _system_prompt(self) -> str:
         err_lib = self.lang.common_errors(self.l1)
         hints = "\n".join(f"- {p.symptom} — {p.hint}" for p in err_lib.patterns) or "(none)"
-        return load_prompt(
+        base = load_prompt(
             "conversation",
             persona=self.persona,
             l1=self.l1,
@@ -105,6 +121,12 @@ class ConversationPipeline:
             scene_description=self.scene.get("description", self.scene.get("title", "")),
             l1_l2_error_hints=hints,
         )
+        # Long conversations get compacted: oldest turns roll up into
+        # `_summary`. Surface that here so the model has long-range context
+        # without re-sending every message every turn.
+        if self._summary:
+            base += f"\n\n# Conversation so far (older context, paraphrased)\n{self._summary}"
+        return base
 
     def _messages(self, user_text: str) -> list[dict]:
         msgs = [{"role": t.role, "content": t.text} for t in self._history]
@@ -207,9 +229,121 @@ class ConversationPipeline:
                 print(f"[{stage}] failed: {type(result).__name__}: {result}")
         await emit("turn_done", {})
 
+        # Fire-and-forget: trim old turns into the rolling summary so the
+        # next turn's prompt stays short. Runs after turn_done so this never
+        # delays user-visible output.
+        asyncio.create_task(self._maybe_compact_history())
+
+    def seed_opening_line(self, text: str) -> None:
+        """Register the scene's opening line as the first assistant turn.
+
+        Without this, the LLM never sees what it "said" first — the next user
+        reply lands as if the conversation started cold, which produces the
+        classic "AI forgets the question it just asked" incoherence.
+        """
+        if not text:
+            return
+        self._history.append(
+            ConversationTurn(
+                role="assistant",
+                text=text,
+                annotated=self.lang.annotate(text),
+            )
+        )
+
+    async def _maybe_compact_history(self) -> None:
+        """Background-safe: roll older turns into `_summary` if history is long.
+
+        Lock-guarded so a slow summarisation can't race with itself when
+        triggered on consecutive turns. Pure best-effort: any failure leaves
+        history untouched and the next turn just sends a slightly longer
+        message list.
+        """
+        if len(self._history) <= self._compact_threshold:
+            return
+        if self._compact_lock.locked():
+            return
+        async with self._compact_lock:
+            # Re-check under the lock — concurrent turns may have already trimmed.
+            if len(self._history) <= self._compact_threshold:
+                return
+            old = self._history[: -self._compact_keep]
+            keep = self._history[-self._compact_keep :]
+            turns_text = "\n".join(f"{t.role}: {t.text}" for t in old)
+            prompt = load_prompt(
+                "history_summary",
+                l1_name=_LANG_NAME.get(self.l1, self.l1),
+                l2_name=_LANG_NAME.get(self.l2, self.l2),
+                prior_summary=self._summary or "(none — this is the first compaction)",
+                turns=turns_text,
+            )
+            try:
+                new_summary = await self.llm.complete(
+                    system=prompt,
+                    messages=[{"role": "user", "content": "Update the summary."}],
+                    max_tokens=400,
+                )
+            except Exception as e:
+                print(f"[compact] llm failed, leaving history intact: {e}")
+                return
+            new_summary = new_summary.strip().strip('"').strip("「」『』").strip()
+            if not new_summary:
+                return
+            self._summary = new_summary
+            self._history = keep
+
     async def generate_suggestions(self, ai_last: str) -> list[ReplySuggestion]:
         """Public entry so main.py can also generate suggestions for the opening line."""
         return await self._generate_suggestions(ai_last)
+
+    async def generate_opening(self) -> str:
+        """Generate a colloquial L2 opening line for a custom scene.
+
+        Used when the scene has no preset `opening_line` (i.e. user-typed
+        custom scenes). Goes through json_schema mode so reasoning-tuned
+        local models don't blow the budget inside <think>. Falls back to a
+        tiny hardcoded L2 greeting so the WS contract — "always send an
+        ai_turn frame so the frontend's Start button unblocks" — holds even
+        when the LLM call errors out.
+        """
+        prompt = load_prompt(
+            "opening_line",
+            l1_name=_LANG_NAME.get(self.l1, self.l1),
+            l2_name=_LANG_NAME.get(self.l2, self.l2),
+            persona=self.persona,
+            scene_title=self.scene.get("title", ""),
+            scene_description=self.scene.get("description", ""),
+        )
+        schema = {
+            "type": "object",
+            "properties": {"line": {"type": "string"}},
+            "required": ["line"],
+            "additionalProperties": False,
+        }
+        try:
+            raw = await self.llm.complete(
+                system=prompt,
+                messages=[{"role": "user", "content": "Begin the scene now."}],
+                max_tokens=400,
+                response_format={
+                    "type": "json_schema",
+                    "json_schema": {"name": "opening_line", "schema": schema},
+                },
+            )
+        except Exception as e:
+            print(f"[opening] llm call failed: {e}")
+            return _FALLBACK_OPENING.get(self.l2, "")
+        text = ""
+        try:
+            obj = json.loads(raw) if raw else {}
+            if isinstance(obj, dict):
+                v = obj.get("line")
+                if isinstance(v, str):
+                    text = v
+        except json.JSONDecodeError:
+            text = raw
+        text = text.strip().strip('"').strip("「」『』").strip()
+        return text or _FALLBACK_OPENING.get(self.l2, "")
 
     async def _generate_suggestions(self, ai_last: str) -> list[ReplySuggestion]:
         level_down, level_up = self._bracket(self.level)

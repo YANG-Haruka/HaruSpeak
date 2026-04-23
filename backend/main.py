@@ -268,6 +268,10 @@ async def ws_chat(ws: WebSocket) -> None:
     opening = scene.get("opening_line", "")
     if isinstance(opening, dict):
         opening = opening.get(l2, "")
+    # Custom scenes don't ship with a preset opening — generate one in L2 so
+    # the frontend's Start button (which gates on the ai_turn frame) unblocks.
+    if not opening and custom_scene:
+        opening = await pipeline.generate_opening()
     if opening:
         import asyncio as _asyncio
 
@@ -289,6 +293,9 @@ async def ws_chat(ws: WebSocket) -> None:
                 "suggestions": [s.model_dump() for s in suggestions],
             }
         )
+        # Without this, the model never "remembers" its own opening line —
+        # the user's first reply lands as if the conversation started cold.
+        pipeline.seed_opening_line(opening)
 
     try:
         while True:
