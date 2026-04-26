@@ -31,6 +31,7 @@ export type Suggestion = {
   tier: "short" | "polite" | "detailed";
   text: string;
   annotated: AnnotatedTextDTO;
+  translation?: string | null;
 };
 
 export type TurnResult = {
@@ -45,8 +46,6 @@ type Options = {
   sceneId: string;
   /** Populated when sceneId === "__custom__" — user-typed scene payload. */
   customScene?: { title: string; description: string; persona?: string; opening_line?: string } | null;
-  /** Optional persona layered on top of the scene's default. */
-  personaOverride?: { id?: string; name?: string; description?: string; tone_hint?: string } | null;
   /** Fired for the scene's opening AI message (includes audio + suggestions). */
   onAITurn?: (t: AITurn) => void;
   /** Fired as soon as LLM text is ready (before TTS / translation / suggestions). */
@@ -71,7 +70,6 @@ export function useChatSocket({
   l2,
   sceneId,
   customScene,
-  personaOverride,
   onAITurn,
   onAIText,
   onAITextDelta,
@@ -93,7 +91,6 @@ export function useChatSocket({
     ws.onopen = () => {
       const init: Record<string, unknown> = { l1, l2, scene_id: sceneId };
       if (customScene) init.custom_scene = customScene;
-      if (personaOverride) init.persona_override = personaOverride;
       ws.send(JSON.stringify(init));
       setConnected(true);
     };

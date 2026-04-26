@@ -19,9 +19,8 @@ from fastapi import APIRouter, HTTPException
 log = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/stt", tags=["stt"])
 
-# Repo root = parents[2] from backend/api/stt_models.py
-_REPO_ROOT = Path(__file__).resolve().parents[2]
-_MODELS_ROOT = _REPO_ROOT / "models"
+from .. import _paths
+_MODELS_ROOT = _paths.models_dir()
 
 
 # --- Registry -----------------------------------------------------------------
@@ -169,12 +168,18 @@ def _migrate_from_hf_cache(model: dict[str, Any]) -> bool:
 
 
 # Run migration on module import. Cheap if nothing to do.
+# Skipped in bundled installs: migrating the *developer's* HF cache into a
+# distribution folder pollutes it with models the end user didn't pick.
+# The bundle ships an embedded Python at <app_root>/python/python.exe — its
+# presence is our "this is a bundled install" marker.
 _MODELS_ROOT.mkdir(parents=True, exist_ok=True)
-for _m in STT_MODELS:
-    try:
-        _migrate_from_hf_cache(_m)
-    except Exception as _e:  # pragma: no cover — defensive
-        log.error("[stt_models] migration crashed id=%s err=%s", _m["id"], _e)
+_IS_BUNDLED = (_paths.app_root() / "python" / "python.exe").exists()
+if not _IS_BUNDLED:
+    for _m in STT_MODELS:
+        try:
+            _migrate_from_hf_cache(_m)
+        except Exception as _e:  # pragma: no cover — defensive
+            log.error("[stt_models] migration crashed id=%s err=%s", _m["id"], _e)
 
 
 # --- Download state -----------------------------------------------------------

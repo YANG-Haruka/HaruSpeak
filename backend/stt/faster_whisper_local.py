@@ -40,9 +40,9 @@ class FasterWhisperSTT:
             compute = "float16" if device == "cuda" else "int8"
 
         # WhisperModel accepts either a size keyword ("small") that auto-downloads
-        # into the HF cache, or a local path. Prefer <repo>/models/ if present.
-        repo_root = Path(__file__).resolve().parents[2]
-        local = repo_root / "models" / f"faster-whisper-{self._model_size}"
+        # into the HF cache, or a local path. Prefer <app_root>/models/ if present.
+        from .. import _paths
+        local = _paths.models_dir() / f"faster-whisper-{self._model_size}"
         model_arg = str(local) if local.is_dir() and any(local.iterdir()) else self._model_size
 
         self._model = WhisperModel(

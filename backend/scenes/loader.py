@@ -6,13 +6,13 @@ Two tiers:
 """
 from __future__ import annotations
 
-from pathlib import Path
 from typing import Any
 
 import yaml
 
-# backend/scenes/loader.py → parents[2] is the repo root.
-_SCENES_ROOT = Path(__file__).resolve().parents[2] / "prompts" / "scenes"
+from .. import _paths
+
+_SCENES_ROOT = _paths.prompts_dir() / "scenes"
 
 
 def load_all(l2: str) -> list[dict[str, Any]]:

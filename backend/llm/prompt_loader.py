@@ -1,11 +1,11 @@
 """Load and fill markdown prompt templates from prompts/logic/."""
 from __future__ import annotations
 
-from pathlib import Path
 from typing import Any
 
-# Repo layout: backend/llm/prompt_loader.py → parents[2] is the repo root.
-_PROMPT_DIR = Path(__file__).resolve().parents[2] / "prompts" / "logic"
+from .. import _paths
+
+_PROMPT_DIR = _paths.prompts_dir() / "logic"
 
 
 def load_prompt(name: str, **kwargs: Any) -> str:

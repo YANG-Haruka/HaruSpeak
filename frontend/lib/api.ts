@@ -24,26 +24,13 @@ export type SceneMeta = {
   languages?: string[];
 };
 
-export type PersonaMeta = {
-  id: string;
-  name: string;
-  description: string;
-  voice_id?: string;
-  tone_hint?: string;
-};
-
 export type CustomScene = {
   title: string;
   description: string;
+  /** Scene-level role for the AI (e.g. "real estate agent"). Goes into
+   * the scene definition, not the deprecated user-pickable persona system. */
   persona?: string;
   opening_line?: string;
-};
-
-export type PersonaOverride = {
-  id?: string;
-  name?: string;
-  description?: string;
-  tone_hint?: string;
 };
 
 export type LanguageMeta = {
@@ -63,12 +50,6 @@ export async function fetchScenes(l2: string): Promise<SceneMeta[]> {
   const r = await fetch(`${backendBase()}/api/scenes?l2=${l2}`);
   const j = await r.json();
   return j.scenes;
-}
-
-export async function fetchPersonas(l2: string): Promise<PersonaMeta[]> {
-  const r = await fetch(`${backendBase()}/api/personas?l2=${l2}`);
-  const j = await r.json();
-  return j.personas ?? [];
 }
 
 export type STTModelMeta = {

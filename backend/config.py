@@ -9,17 +9,17 @@ from __future__ import annotations
 
 import json
 import os
-from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from . import _paths
 
-_REPO_ROOT = Path(__file__).parent.parent
-_CONFIG_PATH = _REPO_ROOT / "config" / "config.json"
+
+_CONFIG_PATH = _paths.config_dir() / "config.json"
 # Legacy load paths, in order of preference (newest first):
 _LEGACY_PATHS = [
-    _REPO_ROOT / "data" / "config.json",    # pre-config-folder rename
-    _REPO_ROOT / "data" / "settings.json",  # pre-file rename
+    _paths.app_root() / "data" / "config.json",    # pre-config-folder rename
+    _paths.app_root() / "data" / "settings.json",  # pre-file rename
 ]
 
 
@@ -32,10 +32,15 @@ class Settings(BaseSettings):
     # model name across.
     llm_provider: str = "openai"
 
-    openai_model: str = "gpt-4o-mini"
+    openai_model: str = "deepseek-v4-flash"
     openai_api_key: str = ""
-    openai_api_base: str = "https://api.openai.com/v1"
+    openai_api_base: str = "https://api.deepseek.com/v1"
     openai_temperature: float = 1.0
+    # "disabled" | "enabled". For reasoning models (DeepSeek v4, o1, etc.)
+    # that share the token budget between internal thinking and visible
+    # output. Default off so small max_tokens calls (translations,
+    # suggestions) actually return content. Real OpenAI ignores the field.
+    openai_thinking_mode: str = "disabled"
 
     lmstudio_model: str = ""
     lmstudio_base: str = "http://localhost:1234/v1"
@@ -68,12 +73,25 @@ class Settings(BaseSettings):
         Migrations:
           - legacy `llm_model` → `openai_model` (single-model → per-provider)
           - stt_provider `whisper_openai` → `sensevoice` (removed provider)
+          - retired edge-tts voices → current default for that language
         """
         if "llm_model" in data and "openai_model" not in data:
             data = {**data, "openai_model": data["llm_model"]}
         data = {k: v for k, v in data.items() if k != "llm_model"}
         if data.get("stt_provider") == "whisper_openai":
             data = {**data, "stt_provider": "sensevoice"}
+        # Microsoft retired these voices in edge-tts; selecting one
+        # produces silent failure. Bump to the language's default.
+        _DEAD_VOICES = {
+            "ja-JP-AoiNeural":      "ja-JP-NanamiNeural",
+            "ja-JP-DaichiNeural":   "ja-JP-KeitaNeural",
+            "zh-CN-XiaomengNeural": "zh-CN-XiaoxiaoNeural",
+            "zh-CN-XiaohanNeural":  "zh-CN-XiaoxiaoNeural",
+            "en-US-RyanNeural":     "en-GB-RyanNeural",
+        }
+        for key in ("tts_voice_ja", "tts_voice_zh", "tts_voice_en"):
+            if data.get(key) in _DEAD_VOICES:
+                data = {**data, key: _DEAD_VOICES[data[key]]}
         for key, value in data.items():
             if hasattr(self, key):
                 setattr(self, key, value)
@@ -88,6 +106,7 @@ class Settings(BaseSettings):
                 "openai_model",
                 "openai_api_base",
                 "openai_api_key",
+                "openai_thinking_mode",
                 "lmstudio_model",
                 "lmstudio_base",
                 "stt_provider",

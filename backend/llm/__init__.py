@@ -40,5 +40,6 @@ def make_llm(settings):
             base_url=base,
             model=model,
             temperature=settings.openai_temperature,
+            thinking_mode=getattr(settings, "openai_thinking_mode", "disabled"),
         )
     raise ValueError(f"Unknown LLM provider: {settings.llm_provider}")

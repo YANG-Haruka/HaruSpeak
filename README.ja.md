@@ -91,6 +91,15 @@ python scripts/dev.py
 
 - **LLM プロバイダ** —— OpenAI 互換クラウド（任意のプロキシ）または
   LM Studio / Ollama ローカル（`/v1/models` でロード済みモデルを自動検出）
+  - **推奨モデル**：
+    - `deepseek-v4-flash`（デフォルト）—— エンドポイント `https://api.deepseek.com/v1`
+    - `gpt-5.4-mini` —— エンドポイント `https://api.openai.com/v1`
+      （または任意の OpenAI 互換プロキシ）
+  - 推論モデル（DeepSeek v4 / OpenAI o1+ / Anthropic 拡張思考）には
+    `config.json` の `openai_thinking_mode` という **思考スイッチ** があり、
+    デフォルトは `disabled`。翻訳や提案など小さい max_tokens の呼び出しで
+    可視 content が空になるのを防ぎます。フル推論体験が欲しい場合
+    （トークン消費が増えても良ければ）`enabled` に切り替えてください。
 - **STT モデル** —— SenseVoice-Small（推奨）または任意サイズの faster-whisper。
   ダウンロード/削除 UI 付き、重みは `<repo>/models/` に配置
 - **TTS 音声** —— 各練習言語ごとに、音色の説明付き

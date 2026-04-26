@@ -96,6 +96,15 @@ Click the gear ⚙ in the top nav. Everything here persists to
 
 - **LLM provider** — OpenAI-compatible cloud (any proxy) _or_
   LM Studio / Ollama on localhost (auto-detects loaded models via `/v1/models`)
+  - **Recommended models**:
+    - `deepseek-v4-flash` (default) — endpoint `https://api.deepseek.com/v1`
+    - `gpt-5.4-mini` — endpoint `https://api.openai.com/v1` (or any
+      OpenAI-compatible proxy)
+  - Reasoning models (DeepSeek v4, OpenAI o1+, Anthropic extended-thinking)
+    have a **thinking switch** in `config.json` → `openai_thinking_mode`,
+    default `disabled` so small max_tokens calls (translations, suggestions)
+    actually produce visible content. Flip to `enabled` if you want the
+    full reasoning-model experience and don't mind larger token bills.
 - **STT model** — SenseVoice-Small (recommended) or any faster-whisper size,
   with a built-in download/delete UI; weights land in `<repo>/models/`
 - **TTS voice** — per target language, with tone descriptions

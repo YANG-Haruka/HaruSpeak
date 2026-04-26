@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { CustomScene, PersonaOverride } from "./api";
+import type { CustomScene } from "./api";
 
 export type Theme = "light" | "dark";
 
@@ -19,7 +19,6 @@ type SessionState = {
 
   // One-off overrides sent to the WS on chat start
   customScene: CustomScene | null;     // populated when sceneId === "__custom__"
-  personaOverride: PersonaOverride | null; // picked from persona library or custom-typed
 
   setUiLang: (v: string) => void;
   setTheme: (v: Theme) => void;
@@ -31,7 +30,6 @@ type SessionState = {
   toggleReading: () => void;
   toggleTranslation: () => void;
   setCustomScene: (v: CustomScene | null) => void;
-  setPersonaOverride: (v: PersonaOverride | null) => void;
 };
 
 const _browserDefault = (): string => {
@@ -53,7 +51,6 @@ export const useSessionStore = create<SessionState>()(
       showReading: true,
       showTranslation: true,
       customScene: null,
-      personaOverride: null,
       setUiLang: (v) => set({ uiLang: v }),
       setTheme: (v) => set({ theme: v }),
       toggleTheme: () =>
@@ -65,7 +62,6 @@ export const useSessionStore = create<SessionState>()(
       toggleReading: () => set((s) => ({ showReading: !s.showReading })),
       toggleTranslation: () => set((s) => ({ showTranslation: !s.showTranslation })),
       setCustomScene: (v) => set({ customScene: v }),
-      setPersonaOverride: (v) => set({ personaOverride: v }),
     }),
     {
       name: "haruspeak.session",

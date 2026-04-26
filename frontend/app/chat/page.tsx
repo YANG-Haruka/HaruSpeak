@@ -21,7 +21,7 @@ import { LevelMeter } from "@/components/LevelMeter";
 export default function ChatPage() {
   const router = useRouter();
   const t = useT();
-  const { l1, l2, sceneId, showTranslation, customScene, personaOverride } = useSessionStore();
+  const { l1, l2, sceneId, showTranslation, customScene } = useSessionStore();
   const [orb, setOrb] = useState<OrbState>("idle");
   const [aiTurn, setAiTurn] = useState<AITurn | null>(null);
   const [streamingText, setStreamingText] = useState<string>("");
@@ -80,7 +80,6 @@ export default function ChatPage() {
     l2,
     sceneId,
     customScene,
-    personaOverride,
     onAITurn: handleAITurn,
     onTranscript: (t) => setLastUserTranscript(t.text),
     onAITextDelta: (delta) => {
@@ -263,7 +262,12 @@ function StartOverlay({
   return (
     <div className="absolute inset-0 z-50 flex items-center justify-center bg-bg/70 backdrop-blur-xl animate-[fadeIn_200ms_ease-out]">
       <div className="flex flex-col items-center gap-6 px-6">
-        <div className="w-24 h-24 rounded-full bg-[radial-gradient(circle_at_30%_30%,var(--accent)_0%,#1a1a40_65%,#000_100%)] orb-idle" />
+        <img
+          src="/icon.png"
+          alt=""
+          className="w-24 h-24 orb-idle"
+          draggable={false}
+        />
         <button
           onClick={onStart}
           disabled={!ready}

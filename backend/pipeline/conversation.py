@@ -70,6 +70,7 @@ class ReplySuggestion(BaseModel):
     tier: str                        # "short" | "polite" | "detailed"
     text: str
     annotated: AnnotatedText
+    translation: str | None = None   # L1 rendering, generated alongside `text`
 
 
 class TurnResult(BaseModel):
@@ -349,6 +350,7 @@ class ConversationPipeline:
         level_down, level_up = self._bracket(self.level)
         prompt = load_prompt(
             "reply_suggest",
+            l1_name=_LANG_NAME.get(self.l1, self.l1),
             l2_name=_LANG_NAME.get(self.l2, self.l2),
             ai_last_message=ai_last,
             level=self.level,
@@ -367,8 +369,9 @@ class ConversationPipeline:
                         "properties": {
                             "tier": {"type": "string", "enum": ["short", "polite", "detailed"]},
                             "text": {"type": "string"},
+                            "translation": {"type": "string"},
                         },
-                        "required": ["tier", "text"],
+                        "required": ["tier", "text", "translation"],
                         "additionalProperties": False,
                     },
                     "minItems": 1,
@@ -406,11 +409,15 @@ class ConversationPipeline:
             text = item.get("text", "")
             if not text:
                 continue
+            translation = item.get("translation") or None
+            if isinstance(translation, str):
+                translation = translation.strip() or None
             out.append(
                 ReplySuggestion(
                     tier=item.get("tier", "polite"),
                     text=text,
                     annotated=self.lang.annotate(text),
+                    translation=translation,
                 )
             )
         return out

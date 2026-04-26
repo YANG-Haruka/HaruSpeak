@@ -1,8 +1,9 @@
 {
   "llm_provider": "openai",
-  "openai_model": "gpt-4o-mini",
-  "openai_api_base": "https://api.openai.com/v1",
+  "openai_model": "deepseek-v4-flash",
+  "openai_api_base": "https://api.deepseek.com/v1",
   "openai_api_key": "",
+  "openai_thinking_mode": "disabled",
   "lmstudio_model": "",
   "lmstudio_base": "http://localhost:1234/v1",
   "stt_provider": "sensevoice",

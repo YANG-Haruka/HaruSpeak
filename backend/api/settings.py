@@ -153,24 +153,27 @@ async def candidates() -> dict[str, Any]:
             "tiny", "base", "small", "medium", "large-v3", "large-v3-turbo",
         ],
         # Frontend looks up `voice_desc_<id>` in its i18n bundle.
+        # Voice IDs Microsoft still ships in edge-tts. The previous list
+        # included Aoi/Daichi (JA), Xiaomeng/Xiaohan (ZH), en-US-Ryan (EN);
+        # all silently retired by Microsoft. Selecting a dead voice
+        # produces no audio because edge_tts.Communicate raises and the
+        # error gets swallowed downstream.
         "tts_voices": {
             "ja": [
                 {"id": vid, "description_key": f"voice_desc_{vid}"} for vid in (
                     "ja-JP-NanamiNeural", "ja-JP-KeitaNeural",
-                    "ja-JP-AoiNeural", "ja-JP-DaichiNeural",
                 )
             ],
             "zh": [
                 {"id": vid, "description_key": f"voice_desc_{vid}"} for vid in (
                     "zh-CN-XiaoxiaoNeural", "zh-CN-YunxiNeural",
                     "zh-CN-XiaoyiNeural", "zh-CN-YunjianNeural",
-                    "zh-CN-XiaomengNeural", "zh-CN-XiaohanNeural",
                 )
             ],
             "en": [
                 {"id": vid, "description_key": f"voice_desc_{vid}"} for vid in (
                     "en-US-AriaNeural", "en-US-GuyNeural",
-                    "en-US-JennyNeural", "en-US-RyanNeural",
+                    "en-US-JennyNeural",
                     "en-GB-SoniaNeural", "en-GB-RyanNeural",
                 )
             ],

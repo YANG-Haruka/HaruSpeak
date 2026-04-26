@@ -20,7 +20,18 @@ export function TopNav({ back = false, hideSettings = false }: Props) {
       <div className="max-w-readable mx-auto h-12 px-4 flex items-center justify-between">
         {back ? (
           <button
-            onClick={() => router.back()}
+            onClick={() => {
+              // If the user landed on this page from elsewhere in the app,
+              // a real `back` works. If they opened the URL directly (or
+              // we auto-launched into here), browser history is empty —
+              // fall back to the homepage so they aren't stranded.
+              const fromInside =
+                typeof document !== "undefined" &&
+                document.referrer &&
+                document.referrer.includes(window.location.host);
+              if (fromInside) router.back();
+              else router.push("/");
+            }}
             className="h-8 px-2 -ml-2 text-[15px] text-accent hover:opacity-80 transition flex items-center gap-0.5"
           >
             <span className="text-lg leading-none">‹</span>
@@ -28,7 +39,12 @@ export function TopNav({ back = false, hideSettings = false }: Props) {
           </button>
         ) : (
           <Link href="/" className="h-8 flex items-center gap-2">
-            <span className="w-5 h-5 rounded-full bg-[radial-gradient(circle_at_30%_30%,var(--accent)_0%,#1a1a40_70%,#000_100%)]" />
+            <img
+              src="/icon.png"
+              alt=""
+              className="w-5 h-5"
+              draggable={false}
+            />
             <span className="text-[15px] font-semibold tracking-tight">
               {t("app_name")}
             </span>

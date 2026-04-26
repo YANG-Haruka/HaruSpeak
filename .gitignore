@@ -14,6 +14,17 @@ out/
 *.log
 *.tsbuildinfo
 
+# PyInstaller / portable-app build artifacts
+dist/
+build/
+scripts/_ffmpeg/
+scripts/_cache/
+
+# Personal scratch files (often contain API keys for ad-hoc testing)
+test.py
+scratch.py
+*_scratch.py
+
 # User state (config with API keys, logs, downloaded models — all big or sensitive)
 # Note: `config/*` (not `config/`) so git still recurses and honors the
 # negation below for the sample template.

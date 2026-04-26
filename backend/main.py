@@ -101,6 +101,8 @@ async def _warm_stt() -> None:
         try:
             await asyncio.get_event_loop().run_in_executor(None, loader)
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             print(f"[warmup] STT load failed: {e}")
     print(f"[warmup] STT ready in {time.time() - t0:.1f}s")
     if _STT_READY_EVENT is not None:
@@ -175,14 +177,6 @@ def get_scenes(l2: str) -> dict[str, Any]:
     return {"scenes": load_all(l2)}
 
 
-@app.get("/api/personas")
-def get_personas(l2: str) -> dict[str, Any]:
-    from .personas.loader import list_personas
-    if l2 not in list_languages():
-        raise HTTPException(status_code=404, detail=f"L2 '{l2}' not found")
-    return {"personas": list_personas(l2)}
-
-
 class AnnotateRequest(BaseModel):
     text: str
     language: str
@@ -206,19 +200,17 @@ def annotate_endpoint(req: AnnotateRequest) -> dict[str, Any]:
 async def ws_chat(ws: WebSocket) -> None:
     await ws.accept()
 
-    # First message: JSON with {l1, l2, scene_id, level, custom_scene?, persona_override?}
+    # First message: JSON with {l1, l2, scene_id, level, custom_scene?}
     # custom_scene shape: {title, description, persona?, opening_line?}
-    # persona_override shape: {id?, name?, description?} — at minimum a descriptive string
     init = await ws.receive_json()
     l1 = init.get("l1", "zh")
     l2 = init.get("l2", "ja")
     scene_id = init.get("scene_id", "restaurant")
     level = init.get("level", "B1")
     custom_scene = init.get("custom_scene")
-    persona_override = init.get("persona_override")
     logging.getLogger(__name__).info(
-        "[ws] chat start  l1=%s l2=%s scene=%s custom=%s persona_override=%s  provider=%s openai_model=%r lmstudio_model=%r",
-        l1, l2, scene_id, bool(custom_scene), bool(persona_override),
+        "[ws] chat start  l1=%s l2=%s scene=%s custom=%s  provider=%s openai_model=%r lmstudio_model=%r",
+        l1, l2, scene_id, bool(custom_scene),
         settings.llm_provider, settings.openai_model, settings.lmstudio_model,
     )
 
@@ -239,20 +231,12 @@ async def ws_chat(ws: WebSocket) -> None:
     stt = _STT_SINGLETON or make_stt(settings)
     llm = make_llm(settings)
 
-    # Persona resolution priority:
-    #   1. persona_override from client (library pick or user-typed custom)
-    #   2. scene's own persona field
-    if persona_override and isinstance(persona_override, dict):
-        pieces = [
-            persona_override.get("name"),
-            persona_override.get("description"),
-            persona_override.get("tone_hint"),
-        ]
-        persona = " — ".join(p for p in pieces if p) or "native speaker"
-    else:
-        persona = scene.get("persona")
-        if isinstance(persona, dict):
-            persona = persona.get(l2) or persona.get("en") or "native speaker"
+    # Persona is whatever the scene declares (`persona:` field in the
+    # scene YAML). Common scenes carry a per-language dict; L2-specific
+    # scenes carry a plain string.
+    persona = scene.get("persona")
+    if isinstance(persona, dict):
+        persona = persona.get(l2) or persona.get("en") or "native speaker"
 
     pipeline = ConversationPipeline(
         stt=stt,
@@ -346,3 +330,18 @@ def _parse_json_safe(raw: str) -> dict[str, Any]:
         return json.loads(raw)
     except Exception:
         return {}
+
+
+# Bundled build: serve the static Next.js export from the same origin so the
+# whole app speaks one URL. Mounted last so /api/*, /ws/*, /healthz win route
+# matching first; everything else falls through to <path>/index.html.
+#
+# Trigger condition is the *presence of a frontend dir alongside app_root* —
+# that's true for both PyInstaller and embed-Python builds, and false in dev
+# (where Next.js dev server handles the frontend on its own port).
+from . import _paths as _paths_mod  # noqa: E402
+
+_frontend = _paths_mod.frontend_dir()
+if _frontend.is_dir() and (_frontend / "index.html").is_file():
+    from fastapi.staticfiles import StaticFiles  # noqa: E402
+    app.mount("/", StaticFiles(directory=str(_frontend), html=True), name="frontend")

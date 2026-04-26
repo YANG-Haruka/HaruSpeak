@@ -10,6 +10,7 @@ from pathlib import Path
 
 from huggingface_hub import snapshot_download
 
+from .. import _paths
 from ..audio import decode_to_pcm16k
 from .base import Transcript
 
@@ -27,11 +28,11 @@ class SenseVoiceSTT:
         p = self._model_path
         if Path(p).exists():
             return p
-        # Prefer <repo>/models/sensevoice-small/ — that's where the UI
-        # Download button puts freshly-fetched weights. Falls through to
+        # Prefer <app_root>/models/sensevoice-small/ — that's where the UI
+        # Download button puts freshly-fetched weights, and where the
+        # frozen-app installer ships preloaded weights. Falls through to
         # HF hub if not found (auto-downloads into HF cache).
-        repo_root = Path(__file__).resolve().parents[2]
-        local = repo_root / "models" / "sensevoice-small"
+        local = _paths.models_dir() / "sensevoice-small"
         if local.is_dir() and any(local.iterdir()):
             cached = str(local)
         else:

@@ -84,6 +84,14 @@ python scripts/dev.py
 
 - **LLM 提供方** —— OpenAI 兼容云端（任何代理）或
   LM Studio / Ollama 本地（通过 `/v1/models` 自动检测已加载模型）
+  - **推荐模型**：
+    - `deepseek-v4-flash`（默认）—— 接口 `https://api.deepseek.com/v1`
+    - `gpt-5.4-mini` —— 接口 `https://api.openai.com/v1`（或任意
+      OpenAI 兼容代理）
+  - 推理模型（DeepSeek v4 / OpenAI o1+ / Anthropic 扩展思考）在
+    `config.json` 里有 **思考开关**：`openai_thinking_mode`，默认
+    `disabled`——这样翻译/建议这种小调用才会真的输出可见 content。
+    想体验完整推理就改成 `enabled`（注意会消耗更多 token）。
 - **STT 模型** —— SenseVoice-Small（推荐）或任意大小的 faster-whisper，
   带下载/删除 UI，权重放在 `<repo>/models/`
 - **TTS 声音** —— 每种目标语言一份，附音色说明

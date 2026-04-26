@@ -19,5 +19,8 @@ Difficulty tiers (return in this exact order):
   polite:   one natural sentence at {level}
   detailed: 1-2 rich sentences at {level_plus_one}
 
+For each reply, also produce a natural {l1_name} translation in the
+`translation` field — so the learner can see what they would be saying.
+
 Output ONLY {l2_name} in the `text` fields. No romanization, pinyin, or
-furigana — those are added later. No translations. No explanations.
+furigana — those are added later. No explanations or commentary.

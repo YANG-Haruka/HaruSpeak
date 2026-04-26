@@ -19,15 +19,19 @@ import subprocess
 
 import numpy as np
 
+from .. import _paths
+
 
 TARGET_SR = 16_000
 
 
 def _decode_sync(audio_bytes: bytes) -> np.ndarray:
-    ffmpeg = shutil.which("ffmpeg")
+    # Prefer the ffmpeg.exe shipped next to the launcher (frozen build).
+    # Falls back to PATH for dev mode / users who already have ffmpeg.
+    ffmpeg = _paths.ffmpeg_exe() or shutil.which("ffmpeg")
     if ffmpeg is None:
         raise RuntimeError(
-            "ffmpeg not found on PATH. Install via "
+            "ffmpeg not found. In dev mode, install via "
             "`conda install -n haruspeak -c conda-forge ffmpeg`."
         )
 
