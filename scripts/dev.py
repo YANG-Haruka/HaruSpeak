@@ -90,6 +90,19 @@ def _port_in_use(port: int) -> bool:
         return s.connect_ex(("127.0.0.1", port)) == 0
 
 
+def _find_free_port(start: int, span: int = 10) -> int | None:
+    """Return the first free port in [start, start+span), or None if all taken.
+
+    Used to slide off the default 8000/3000 when a previous dev session is
+    still alive. Span of 10 is enough headroom for normal hot-reload churn
+    without risking collisions with other well-known services.
+    """
+    for p in range(start, start + span):
+        if not _port_in_use(p):
+            return p
+    return None
+
+
 def _stream(name: str, proc: subprocess.Popen) -> None:
     prefix = f"{COLOR.get(name, '')}[{name}]{COLOR['reset']}"
     assert proc.stdout is not None
@@ -157,12 +170,29 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    if not args.frontend_only and _port_in_use(8000):
-        print("! port 8000 already in use — close the previous backend and retry.")
-        sys.exit(1)
-    if not args.backend_only and _port_in_use(3000):
-        print("! port 3000 already in use — close the previous frontend and retry.")
-        sys.exit(1)
+    # Auto-slide off occupied ports. A stale dev session leaving 8000/3000
+    # bound was the #1 friction point — now we just take the next free slot
+    # in the same range and tell Next.js where to find the backend.
+    backend_port = 8000
+    frontend_port = 3000
+
+    if not args.frontend_only:
+        picked = _find_free_port(8000)
+        if picked is None:
+            print("! ports 8000-8009 all in use — close existing services and retry.")
+            sys.exit(1)
+        backend_port = picked
+        if backend_port != 8000:
+            print(f"! port 8000 in use — backend will use {backend_port}")
+
+    if not args.backend_only:
+        picked = _find_free_port(3000)
+        if picked is None:
+            print("! ports 3000-3009 all in use — close existing services and retry.")
+            sys.exit(1)
+        frontend_port = picked
+        if frontend_port != 3000:
+            print(f"! port 3000 in use — frontend will use {frontend_port}")
 
     procs: list[tuple[str, subprocess.Popen]] = []
 
@@ -175,24 +205,28 @@ def main() -> None:
             "--reload",
             "--reload-dir", "backend",
             "--host", "127.0.0.1",
-            "--port", "8000",
+            "--port", str(backend_port),
         ]
         backend_env = {"PYTHONNOUSERSITE": "1"}
-        print(f"→ backend  : http://localhost:8000")
+        print(f"→ backend  : http://localhost:{backend_port}")
         procs.append(("backend", _spawn(backend_cmd, ROOT, extra_env=backend_env)))
 
     if not args.backend_only:
         node = _node_exe()
         next_entry = _next_js_entry()
-        frontend_cmd = [node, str(next_entry), "dev"]
-        print(f"→ frontend : http://localhost:3000")
-        procs.append(("frontend", _spawn(frontend_cmd, ROOT / "frontend")))
+        frontend_cmd = [node, str(next_entry), "dev", "-p", str(frontend_port)]
+        # next.config.js picks up BACKEND_URL to proxy /api/* and /ws/* —
+        # without this, the rewrite rules still point at :8000 and the
+        # frontend can't reach a backend that slid to a different port.
+        frontend_env = {"BACKEND_URL": f"http://localhost:{backend_port}"}
+        print(f"→ frontend : http://localhost:{frontend_port}")
+        procs.append(("frontend", _spawn(frontend_cmd, ROOT / "frontend", extra_env=frontend_env)))
 
     for name, proc in procs:
         threading.Thread(target=_stream, args=(name, proc), daemon=True).start()
 
     if not args.no_open and not args.backend_only:
-        threading.Thread(target=_auto_open, args=(3000,), daemon=True).start()
+        threading.Thread(target=_auto_open, args=(frontend_port,), daemon=True).start()
 
     print("Press Ctrl+C once to stop both.\n")
 
