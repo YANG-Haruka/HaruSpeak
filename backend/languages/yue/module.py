@@ -16,16 +16,18 @@ from .g2p import g2p as _g2p
 from .prosody import prosody_target as _prosody_target, score_prosody as _score_prosody
 
 
-class EnglishModule(LanguageModule):
-    code = "en"
+class CantoneseModule(LanguageModule):
+    # Use ISO 639-3 `yue` (matches SenseVoice's language_code) rather than
+    # BCP-47 `zh-HK`. The TTS layer maps yue → zh-HK-* voice IDs internally.
+    code = "yue"
     display_names = {
-        "ja": "英語",
-        "zh": "英语",
-        "en": "English",
-        "ko": "영어",
-        "yue": "英文",
+        "ja": "広東語",
+        "zh": "粤语",
+        "en": "Cantonese",
+        "ko": "광둥어",
+        "yue": "粵語",
     }
-    unit_kind = "syllable-of-word"
+    unit_kind = "syllable"
 
     def g2p(self, text: str) -> list[Phoneme]:
         return _g2p(text)
@@ -51,4 +53,4 @@ class EnglishModule(LanguageModule):
         from ...config import settings
         from ...tts.edge import synthesize as edge_synthesize
 
-        return await edge_synthesize(text, lang="en", voice=settings.tts_voice_en)
+        return await edge_synthesize(text, lang="yue", voice=settings.tts_voice_yue)

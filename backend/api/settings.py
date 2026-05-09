@@ -39,6 +39,8 @@ class SettingsPayload(BaseModel):
     tts_voice_ja: str | None = None
     tts_voice_zh: str | None = None
     tts_voice_en: str | None = None
+    tts_voice_ko: str | None = None
+    tts_voice_yue: str | None = None
 
 
 class CurrentSettings(BaseModel):
@@ -58,6 +60,8 @@ class CurrentSettings(BaseModel):
     tts_voice_ja: str
     tts_voice_zh: str
     tts_voice_en: str
+    tts_voice_ko: str
+    tts_voice_yue: str
 
 
 # -------- endpoints --------
@@ -79,6 +83,8 @@ def get_settings() -> CurrentSettings:
         tts_voice_ja=settings.tts_voice_ja,
         tts_voice_zh=settings.tts_voice_zh,
         tts_voice_en=settings.tts_voice_en,
+        tts_voice_ko=settings.tts_voice_ko,
+        tts_voice_yue=settings.tts_voice_yue,
     )
 
 
@@ -175,6 +181,20 @@ async def candidates() -> dict[str, Any]:
                     "en-US-AriaNeural", "en-US-GuyNeural",
                     "en-US-JennyNeural",
                     "en-GB-SoniaNeural", "en-GB-RyanNeural",
+                )
+            ],
+            # Korean voices verified end-to-end via scripts/verify_edge_voices.py.
+            "ko": [
+                {"id": vid, "description_key": f"voice_desc_{vid}"} for vid in (
+                    "ko-KR-SunHiNeural", "ko-KR-InJoonNeural",
+                )
+            ],
+            # Cantonese — note edge-tts uses BCP-47 zh-HK IDs, while our
+            # internal language code is ISO 639-3 `yue` (matches SenseVoice).
+            "yue": [
+                {"id": vid, "description_key": f"voice_desc_{vid}"} for vid in (
+                    "zh-HK-HiuGaaiNeural", "zh-HK-HiuMaanNeural",
+                    "zh-HK-WanLungNeural",
                 )
             ],
         },

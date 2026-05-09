@@ -1,0 +1,7 @@
+id: mtr_octopus
+language: yue
+title: 港鐵客務中心
+difficulty: A2
+persona: 港鐵客務員
+description: 喺港鐵站問點樣搭車去九龍塘，順便買八達通同問點樣增值。
+opening_line: 你好，請問有咩可以幫到你？

@@ -1,19 +1,27 @@
 id: asking_directions
-languages: [ja, zh, en]
+languages: [ja, zh, en, ko, yue]
 difficulty: A2
 titles:
   ja: 道を尋ねる
   zh: 向路人问路
   en: Asking for directions
+  ko: 길 물어보기
+  yue: 問路
 persona:
   ja: 親切な通行人
   zh: 热心的路人
   en: A friendly passerby
+  ko: 친절한 행인
+  yue: 熱心嘅路人
 description:
   ja: 最寄り駅までの行き方がわからず、道行く人に声をかけて尋ねる。
   zh: 不知道最近的地铁站怎么走，礼貌地拦住路人询问方向。
   en: You're lost and politely stop someone on the street to ask how to get to the nearest station.
+  ko: 가장 가까운 지하철역으로 가는 길을 몰라서 행인에게 정중하게 물어본다.
+  yue: 唔識去最近嘅港鐵站，禮貌咁截住路人問點行。
 opening_line:
   ja: はい、どうぞ？
   zh: 您好，有什么事？
   en: Sure, what can I help you with?
+  ko: 네, 무슨 일이세요?
+  yue: 有咩可以幫到你呀？

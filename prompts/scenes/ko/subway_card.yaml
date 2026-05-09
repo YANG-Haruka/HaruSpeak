@@ -1,0 +1,7 @@
+id: subway_card
+language: ko
+title: 지하철 교통카드 충전
+difficulty: A2
+persona: 편의점 직원
+description: 편의점에서 티머니 카드를 충전하고, 환승과 잔액 확인 방법도 묻는다.
+opening_line: 안녕하세요. 무엇을 도와드릴까요?

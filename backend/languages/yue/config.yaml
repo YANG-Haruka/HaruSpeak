@@ -1,0 +1,29 @@
+code: yue
+display_name:
+  ja: 広東語
+  zh: 粤语
+  en: Cantonese
+  ko: 광둥어
+  yue: 粵語
+
+stt:
+  backend: sensevoice         # SenseVoice-Small natively supports yue
+  language_code: yue
+
+tts:
+  reference:
+    backend: edge
+    voice: "zh-HK-HiuGaaiNeural"
+  conversation:
+    backend: edge
+    voice: "zh-HK-WanLungNeural"
+
+annotator:
+  default_show_reading: true   # Jyutping per hanzi
+  default_show_translation: true
+
+prosody:
+  unit: syllable
+  objective: tone
+
+cefr_levels: [A1, A2, B1, B2, C1, C2]

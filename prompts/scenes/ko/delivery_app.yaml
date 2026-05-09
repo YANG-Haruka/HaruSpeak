@@ -1,0 +1,7 @@
+id: delivery_app
+language: ko
+title: 배달앱 주문 문의
+difficulty: B1
+persona: 배달앱 고객센터 상담원
+description: 배달이 늦거나 음식이 빠졌을 때 고객센터에 전화해 환불·재배송을 요청한다.
+opening_line: 네, 고객센터입니다. 무엇을 도와드릴까요?

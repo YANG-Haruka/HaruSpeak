@@ -46,6 +46,8 @@ edge-tts==7.2.8
 # --- Text annotation per L2 ---------------------------------------------------
 # ZH: pinyin + readings
 pypinyin==0.53.0
+# YUE: Jyutping romanization for Cantonese hanzi
+pycantonese==4.3.0
 # JA: morphological analysis (pure-wheel fallback)
 fugashi==1.5.2
 unidic-lite==1.0.8

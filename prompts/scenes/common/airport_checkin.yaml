@@ -1,19 +1,27 @@
 id: airport_checkin
-languages: [ja, zh, en]
+languages: [ja, zh, en, ko, yue]
 difficulty: B1
 titles:
   ja: 空港のチェックイン
   zh: 机场值机
   en: Airport check-in
+  ko: 공항 체크인
+  yue: 機場登機
 persona:
   ja: 航空会社の地上職員
   zh: 航空公司值机员
   en: Airline check-in agent
+  ko: 항공사 카운터 직원
+  yue: 航空公司地勤
 description:
   ja: 国際線のチェックインカウンターで搭乗手続きをする。パスポート、荷物、座席選択のやり取りがある。
   zh: 国际航班值机柜台办理登机手续，包括护照查验、行李托运和选座位。
   en: Checking in for an international flight — passport, checked luggage, and seat selection.
+  ko: 국제선 체크인 카운터에서 여권 확인, 수하물 위탁, 좌석 선택까지 진행한다.
+  yue: 喺機場辦國際線登機手續，包括出示護照、寄行李、揀座位。
 opening_line:
   ja: おはようございます。パスポートをお願いします。
   zh: 早上好，请出示您的护照。
   en: Good morning, may I see your passport please?
+  ko: 안녕하세요. 여권 부탁드립니다.
+  yue: 早晨，唔該畀我睇下你嘅護照。

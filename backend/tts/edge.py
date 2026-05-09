@@ -12,6 +12,9 @@ DEFAULT_VOICES: dict[str, str] = {
     "ja": "ja-JP-NanamiNeural",
     "zh": "zh-CN-XiaoxiaoNeural",
     "en": "en-US-AriaNeural",
+    "ko": "ko-KR-SunHiNeural",
+    # yue uses BCP-47 zh-HK voice IDs (edge-tts has no `yue` locale).
+    "yue": "zh-HK-HiuGaaiNeural",
 }
 
 

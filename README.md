@@ -10,8 +10,9 @@
 > complete with furigana/pinyin annotations, live translations, and
 > three-tier reply suggestions.
 
-Supports **Japanese**, **Chinese**, and **English** as practice languages,
-with more on the roadmap.
+Supports **Japanese**, **Chinese**, **English**, **Korean**, and **Cantonese**
+as practice languages — the five that SenseVoice-Small recognises natively.
+Adding more would mean swapping in a different STT model.
 
 ---
 
@@ -119,7 +120,7 @@ backend/
   main.py                  FastAPI app + WebSocket
   api/settings.py          GET/POST /api/settings, LM Studio probe
   api/stt_models.py        list/download/delete STT models
-  languages/{ja,zh,en}/    per-L2: G2P, annotator, common errors
+  languages/{ja,zh,en,ko,yue}/    per-L2: G2P, annotator, common errors
   llm/
     openai_cloud.py        OpenAI-compatible cloud backend
     lmstudio.py            LM Studio / Ollama local backend (reasoning-aware)
@@ -140,8 +141,8 @@ frontend/
 prompts/                   all LLM / scene / persona content (easy to contribute)
   logic/*.md               scaffolding prompts (conversation, translate, ...)
   scenes/common/*.yaml     9 cross-language scenes
-  scenes/{ja,zh,en}/*.yaml 8 L2-specific scenes each
-  personas/{ja,zh,en}.yaml 7 personas each
+  scenes/{ja,zh,en,ko,yue}/*.yaml 8 L2-specific scenes each
+  personas/{ja,zh,en,ko,yue}.yaml 7 personas each
 
 models/                    downloaded STT weights (gitignored)
 config/config.sample.json    template shipped in repo (no secrets)

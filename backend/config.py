@@ -55,6 +55,8 @@ class Settings(BaseSettings):
     tts_voice_ja: str = "ja-JP-NanamiNeural"
     tts_voice_zh: str = "zh-CN-XiaoxiaoNeural"
     tts_voice_en: str = "en-US-AriaNeural"
+    tts_voice_ko: str = "ko-KR-SunHiNeural"
+    tts_voice_yue: str = "zh-HK-HiuGaaiNeural"
 
     # ---- Runtime -----------------------------------------------------------
     backend_host: str = "127.0.0.1"
@@ -89,7 +91,10 @@ class Settings(BaseSettings):
             "zh-CN-XiaohanNeural":  "zh-CN-XiaoxiaoNeural",
             "en-US-RyanNeural":     "en-GB-RyanNeural",
         }
-        for key in ("tts_voice_ja", "tts_voice_zh", "tts_voice_en"):
+        for key in (
+            "tts_voice_ja", "tts_voice_zh", "tts_voice_en",
+            "tts_voice_ko", "tts_voice_yue",
+        ):
             if data.get(key) in _DEAD_VOICES:
                 data = {**data, key: _DEAD_VOICES[data[key]]}
         for key, value in data.items():
@@ -115,6 +120,8 @@ class Settings(BaseSettings):
                 "tts_voice_ja",
                 "tts_voice_zh",
                 "tts_voice_en",
+                "tts_voice_ko",
+                "tts_voice_yue",
             )
         }
         _CONFIG_PATH.write_text(json.dumps(persisted, indent=2, ensure_ascii=False))

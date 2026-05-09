@@ -6,7 +6,8 @@
 
 > 语音优先的多语言**口语练习**应用。选你的母语（L1）和要练习的语言（L2），挑一个场景或人设，与 AI 进行自然的语音对话 —— 带假名/拼音注音、实时翻译，以及三档回复建议。
 
-目前支持 **日语**、**中文**、**英语** 作为练习语言，后续会扩展。
+目前支持 **日语**、**中文**、**英语**、**韩语**、**粤语** 作为练习语言 ——
+这五种是 SenseVoice-Small 原生识别的语种集合。要扩展到其他语言需要更换 STT 模型。
 
 ---
 
@@ -106,7 +107,7 @@ backend/
   main.py                  FastAPI + WebSocket
   api/settings.py          GET/POST /api/settings, LM Studio 探测
   api/stt_models.py        列出/下载/删除 STT 模型
-  languages/{ja,zh,en}/    按 L2 分：G2P、注音、常见错误库
+  languages/{ja,zh,en,ko,yue}/    按 L2 分：G2P、注音、常见错误库
   llm/
     openai_cloud.py        OpenAI 兼容云端
     lmstudio.py            LM Studio / Ollama（感知 reasoning 模型）
@@ -127,8 +128,8 @@ frontend/
 prompts/                   所有 LLM / 场景 / 人设内容（容易贡献）
   logic/*.md               LLM 脚手架 prompt（对话、翻译等）
   scenes/common/*.yaml     9 个跨语言场景
-  scenes/{ja,zh,en}/*.yaml 每语言 8 个专属场景
-  personas/{ja,zh,en}.yaml 每语言 7 位人设
+  scenes/{ja,zh,en,ko,yue}/*.yaml 每语言 8 个专属场景
+  personas/{ja,zh,en,ko,yue}.yaml 每语言 7 位人设
 
 models/                    已下载的 STT 权重（gitignore）
 config/config.sample.json    仓库自带的占位模板（不含密钥）

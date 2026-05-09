@@ -1,19 +1,27 @@
 id: phone_reservation
-languages: [ja, zh, en]
+languages: [ja, zh, en, ko, yue]
 difficulty: B1
 titles:
   ja: 電話で予約
   zh: 电话预订餐厅
   en: Phone reservation
+  ko: 전화로 예약하기
+  yue: 電話訂位
 persona:
   ja: レストランのスタッフ
   zh: 餐厅接线员
   en: A restaurant host
+  ko: 레스토랑 직원
+  yue: 餐廳職員
 description:
   ja: 人気のレストランに電話して週末のディナーを予約する。人数、時間、特別な要望を伝える。
   zh: 打电话给一家人气餐厅预订周末晚餐，说明人数、时间并询问包间或忌口。
   en: Calling a popular restaurant to book a weekend dinner — party size, time, any special requests.
+  ko: 인기 레스토랑에 전화해서 주말 저녁을 예약한다. 인원수, 시간, 특별 요청 사항까지 전한다.
+  yue: 打電話去一間好夾嘅餐廳訂位食晚飯，要講幾多位、幾點、有冇特別要求。
 opening_line:
   ja: お電話ありがとうございます、青山グリルでございます。
   zh: 您好，这里是青山西餐厅。
   en: Hello, thanks for calling Aoyama Grill, how may I help you?
+  ko: 네, 청산 그릴입니다. 무엇을 도와드릴까요?
+  yue: 喂，青山扒房，請問有咩可以幫到你？

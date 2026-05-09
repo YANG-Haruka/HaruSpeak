@@ -1,19 +1,27 @@
 id: travel
-languages: [ja, zh, en]
+languages: [ja, zh, en, ko, yue]
+difficulty: A2
 titles:
   ja: 道を尋ねる
   zh: 问路
   en: Asking for directions
-difficulty: A2
+  ko: 길 묻기
+  yue: 問路
 persona:
   ja: 地元の人
   zh: 路人
   en: A local resident
+  ko: 동네 주민
+  yue: 街坊
 description:
   ja: 観光客が道に迷っています。
   zh: 游客迷路了。
   en: A tourist is lost.
+  ko: 길 잃은 관광객.
+  yue: 遊客蕩失路。
 opening_line:
   ja: 何かお困りですか？
   zh: 您好，请问您需要帮忙吗？
   en: You look lost — need a hand?
+  ko: 길 잃으셨어요? 도와드릴까요?
+  yue: 你好似搵唔到路？我可以幫到你？

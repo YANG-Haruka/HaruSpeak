@@ -1,19 +1,27 @@
 id: bank_account
-languages: [ja, zh, en]
+languages: [ja, zh, en, ko, yue]
 difficulty: B1
 titles:
   ja: 銀行口座の開設
   zh: 银行开户
   en: Opening a bank account
+  ko: 은행 계좌 개설
+  yue: 開銀行戶口
 persona:
   ja: 銀行の窓口係
   zh: 银行柜员
   en: A bank teller
+  ko: 은행 창구 직원
+  yue: 銀行櫃位職員
 description:
   ja: 初めて銀行口座を作る。本人確認、必要書類、キャッシュカードの説明を受けるやり取り。
   zh: 第一次在银行办理开户手续，需要身份验证并了解卡片、密码和网银设置。
   en: Opening your first account at this bank — ID verification, debit card setup, and online banking.
+  ko: 처음으로 은행 계좌를 개설한다. 신분 확인과 체크카드, 인터넷뱅킹 설정 안내까지.
+  yue: 第一次去銀行開戶口，要核對身份、開提款卡、設定網上銀行。
 opening_line:
   ja: ご用件は何でしょうか？
   zh: 您好，请问办理什么业务？
   en: Welcome — how can I help you today?
+  ko: 어서 오세요. 어떤 업무 보러 오셨어요?
+  yue: 你好，請問辦咩手續呀？

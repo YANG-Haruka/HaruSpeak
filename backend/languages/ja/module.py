@@ -25,6 +25,8 @@ class JapaneseModule(LanguageModule):
         "ja": "日本語",
         "zh": "日语",
         "en": "Japanese",
+        "ko": "일본어",
+        "yue": "日文",
     }
     unit_kind = "mora"
 

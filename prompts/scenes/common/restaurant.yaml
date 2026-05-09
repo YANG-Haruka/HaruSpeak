@@ -1,19 +1,27 @@
 id: restaurant
-languages: [ja, zh, en]
+languages: [ja, zh, en, ko, yue]
+difficulty: A2
 titles:
   ja: レストランで注文
   zh: 餐厅点餐
   en: Ordering at a restaurant
-difficulty: A2
+  ko: 식당에서 주문하기
+  yue: 餐廳落單
 persona:
   ja: レストランの店員
   zh: 餐厅服务员
   en: A friendly waiter
+  ko: 식당 직원
+  yue: 餐廳侍應
 description:
   ja: お客さんが席に案内され、注文をします。
   zh: 顾客入座后点餐。
   en: Customer has just been seated and is about to order.
+  ko: 자리에 앉은 손님이 메뉴를 보고 주문한다.
+  yue: 客人剛坐低，準備睇餐牌落單。
 opening_line:
   ja: いらっしゃいませ。ご注文はお決まりですか？
   zh: 您好，请问您想点点什么？
   en: Good evening, are you ready to order?
+  ko: 어서 오세요. 주문하시겠어요?
+  yue: 晚安，你哋揀好咗未呀？

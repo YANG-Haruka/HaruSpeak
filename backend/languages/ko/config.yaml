@@ -1,0 +1,28 @@
+code: ko
+display_name:
+  ja: 韓国語
+  zh: 韩语
+  en: Korean
+  ko: 한국어
+
+stt:
+  backend: sensevoice         # SenseVoice-Small natively supports KO
+  language_code: ko
+
+tts:
+  reference:
+    backend: edge
+    voice: "ko-KR-SunHiNeural"
+  conversation:
+    backend: edge
+    voice: "ko-KR-InJoonNeural"
+
+annotator:
+  default_show_reading: false  # hangul is already phonetic
+  default_show_translation: true
+
+prosody:
+  unit: syllable
+  objective: phrase_intonation
+
+cefr_levels: [A1, A2, B1, B2, C1, C2]

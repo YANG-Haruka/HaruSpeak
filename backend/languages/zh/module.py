@@ -18,7 +18,13 @@ from .prosody import prosody_target as _prosody_target, score_prosody as _score_
 
 class ChineseModule(LanguageModule):
     code = "zh"
-    display_names = {"ja": "中国語", "zh": "中文", "en": "Chinese"}
+    display_names = {
+        "ja": "中国語",
+        "zh": "中文",
+        "en": "Chinese",
+        "ko": "중국어",
+        "yue": "普通話",
+    }
     unit_kind = "syllable"
 
     def g2p(self, text: str) -> list[Phoneme]:

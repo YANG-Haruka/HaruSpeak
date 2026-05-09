@@ -140,7 +140,7 @@ app.add_middleware(
 
 # Import language modules (they self-register). zh/en stubs raise at call time,
 # but we still want them discoverable in the UI so users see a "coming soon" state.
-ensure_loaded(["ja", "zh", "en"])
+ensure_loaded(["ja", "zh", "en", "ko", "yue"])
 
 
 @app.get("/healthz")

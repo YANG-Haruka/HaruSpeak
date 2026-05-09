@@ -1,0 +1,7 @@
+id: pcbang
+language: ko
+title: PC방에서 자리 잡기
+difficulty: A2
+persona: PC방 카운터 직원
+description: 처음 가는 PC방에서 자리 종류와 시간을 정하고, 음식 주문도 함께 한다.
+opening_line: 어서 오세요. 몇 시간 이용하시겠어요?

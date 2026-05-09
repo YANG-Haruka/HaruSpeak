@@ -1,19 +1,27 @@
 id: shopping
-languages: [ja, zh, en]
+languages: [ja, zh, en, ko, yue]
+difficulty: A2
 titles:
   ja: 買い物
   zh: 购物
   en: Shopping
-difficulty: A2
+  ko: 옷 가게에서 쇼핑
+  yue: 買衫
 persona:
   ja: 店員さん
   zh: 商店店员
   en: A shop assistant
+  ko: 매장 직원
+  yue: 舖頭店員
 description:
   ja: お客さんが服を見ています。
   zh: 顾客在看衣服。
   en: Customer is browsing clothes.
+  ko: 손님이 옷을 둘러보는 중이다.
+  yue: 客人喺度行衫。
 opening_line:
   ja: 何かお探しですか？
   zh: 请问您想看什么？
   en: Hi, can I help you find something?
+  ko: 찾으시는 거 있으세요?
+  yue: 你好呀，搵緊啲咩呀？

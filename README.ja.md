@@ -8,8 +8,9 @@
 > を選び、場面やキャラクターを選ぶと、AI と自然な音声会話ができます ——
 > ふりがな / 拼音の注釈、リアルタイム翻訳、3 段階の返信候補付き。
 
-現在サポートする練習言語は **日本語**、**中国語**、**英語**。
-今後さらに追加予定。
+現在サポートする練習言語は **日本語**、**中国語**、**英語**、**韓国語**、**広東語** ——
+SenseVoice-Small がネイティブで認識する 5 言語です。
+他の言語へ拡張するには STT モデルの差し替えが必要になります。
 
 ---
 
@@ -114,7 +115,7 @@ backend/
   main.py                  FastAPI + WebSocket
   api/settings.py          GET/POST /api/settings、LM Studio プローブ
   api/stt_models.py        STT モデル一覧/ダウンロード/削除
-  languages/{ja,zh,en}/    L2 ごとに: G2P、注釈、よくあるミス
+  languages/{ja,zh,en,ko,yue}/    L2 ごとに: G2P、注釈、よくあるミス
   llm/
     openai_cloud.py        OpenAI 互換クラウド
     lmstudio.py            LM Studio / Ollama (reasoning モデル対応)
@@ -135,8 +136,8 @@ frontend/
 prompts/                   LLM / シーン / キャラクター素材（貢献しやすい）
   logic/*.md               LLM 用プロンプト（会話、翻訳など）
   scenes/common/*.yaml     言語共通 9 シーン
-  scenes/{ja,zh,en}/*.yaml 各言語 8 シーン
-  personas/{ja,zh,en}.yaml 各言語 7 キャラクター
+  scenes/{ja,zh,en,ko,yue}/*.yaml 各言語 8 シーン
+  personas/{ja,zh,en,ko,yue}.yaml 各言語 7 キャラクター
 
 models/                    ダウンロード済み STT 重み (gitignore)
 config/config.sample.json    リポジトリ同梱のサンプル（秘密情報なし）

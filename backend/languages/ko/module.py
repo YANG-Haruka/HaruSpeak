@@ -16,16 +16,18 @@ from .g2p import g2p as _g2p
 from .prosody import prosody_target as _prosody_target, score_prosody as _score_prosody
 
 
-class EnglishModule(LanguageModule):
-    code = "en"
+class KoreanModule(LanguageModule):
+    code = "ko"
     display_names = {
-        "ja": "英語",
-        "zh": "英语",
-        "en": "English",
-        "ko": "영어",
-        "yue": "英文",
+        "ja": "韓国語",
+        "zh": "韩语",
+        "en": "Korean",
+        "ko": "한국어",
+        "yue": "韓文",
     }
-    unit_kind = "syllable-of-word"
+    # Hangul is a featural syllabary — one block = one syllable. Matches `zh`
+    # so the frontend's UnitDisplay can colour per-syllable without changes.
+    unit_kind = "syllable"
 
     def g2p(self, text: str) -> list[Phoneme]:
         return _g2p(text)
@@ -51,4 +53,4 @@ class EnglishModule(LanguageModule):
         from ...config import settings
         from ...tts.edge import synthesize as edge_synthesize
 
-        return await edge_synthesize(text, lang="en", voice=settings.tts_voice_en)
+        return await edge_synthesize(text, lang="ko", voice=settings.tts_voice_ko)

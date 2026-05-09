@@ -19,7 +19,13 @@ from ..llm.prompt_loader import load_prompt
 from ..stt.base import STTBackend, Transcript
 
 
-_LANG_NAME = {"ja": "Japanese", "zh": "Chinese", "en": "English"}
+_LANG_NAME = {
+    "ja": "Japanese",
+    "zh": "Chinese",
+    "en": "English",
+    "ko": "Korean",
+    "yue": "Cantonese",
+}
 
 # Used only when LLM-generated opening fails entirely. Kept deliberately
 # bland so it's obviously a fallback and not the intended output.
@@ -27,6 +33,8 @@ _FALLBACK_OPENING = {
     "ja": "こんにちは。今日はよろしくお願いしますね。",
     "zh": "你好，我们开始吧。",
     "en": "Hi! Let's get started.",
+    "ko": "안녕하세요. 시작해 볼까요?",
+    "yue": "你好，我哋而家開始啦。",
 }
 
 
