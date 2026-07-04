@@ -44,3 +44,6 @@ models/
 .claude/
 *.swp
 .DS_Store
+# Local config with secrets (use config.sample.json as template)
+config/config.json
+test.py
